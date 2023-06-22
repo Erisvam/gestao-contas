@@ -1,14 +1,17 @@
 package br.com.gestao.contas.cartoes.dto;
 
+import br.com.gestao.contas.dividas.dto.DividaDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +21,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "cartoes")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "codigo")
 public class CartaoDTO implements Serializable {
 
     @Serial
@@ -33,4 +39,8 @@ public class CartaoDTO implements Serializable {
     private String dataVencimento;
 
     private String funcionalidade;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<DividaDTO> dividas;
 }
