@@ -1,14 +1,14 @@
 package br.com.gestao.contas.cartoes.dto;
 
+import br.com.gestao.contas.dividas.dto.DividaDTO;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,4 +33,7 @@ public class CartaoDTO implements Serializable {
     private String dataVencimento;
 
     private String funcionalidade;
+
+    @OneToMany(mappedBy = "cartao", cascade = CascadeType.ALL)
+    private List<DividaDTO> dividas;
 }

@@ -1,5 +1,6 @@
 package br.com.gestao.contas.pessoas.dto;
 
+import br.com.gestao.contas.dividas.dto.DividaDTO;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +30,7 @@ public class PessoaDTO implements Serializable {
     private String nome;
 
     private String telefone;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<DividaDTO> dividas;
 }
