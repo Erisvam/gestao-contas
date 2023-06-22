@@ -13,16 +13,16 @@ public class DividaMapper {
 
     private DividaMapper(){}
 
-    public static DividaViewModel from(Optional<DividaDTO> divida){
-        DividaDTO dividaDTO = divida.get();
+    public static DividaViewModel from(DividaDTO divida){
         return new DividaViewModel()
                 .builder()
-                .valor(dividaDTO.getValor())
-                .dataCompra(dividaDTO.getDataCompra())
-                .status(dividaDTO.getStatus())
-                .descricao(dividaDTO.getDescricao())
-                .cartao(from(dividaDTO.getCartao()))
-                .pessoa(from(dividaDTO.getPessoa()))
+                .codigo(divida.getCodigo())
+                .valor(divida.getValor())
+                .dataCompra(divida.getDataCompra())
+                .status(divida.getStatus())
+                .descricao(divida.getDescricao())
+                .cartao(from(divida.getCartao()))
+                .pessoa(from(divida.getPessoa()))
                 .build();
     }
 

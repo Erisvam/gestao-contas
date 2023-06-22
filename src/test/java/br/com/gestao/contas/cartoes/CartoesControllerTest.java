@@ -43,24 +43,24 @@ public class CartoesControllerTest {
 
     @Test
     public void deveConsultarCartao(){
-        ResponseEntity<CartaoDTO> consultaCartaoResponse = restTemplate.getForEntity("/cartoes/1234", CartaoDTO.class);
+        ResponseEntity<CartaoDTO> consultaCartaoResponse = restTemplate.getForEntity("/cartoes/8232", CartaoDTO.class);
         assertThat(consultaCartaoResponse.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
     public void deveEditarCartao(){
-        ResponseEntity<CartaoDTO> getCartao = restTemplate.getForEntity("/cartoes/1234", CartaoDTO.class);
+        ResponseEntity<CartaoDTO> getCartao = restTemplate.getForEntity("/cartoes/8232", CartaoDTO.class);
         getCartao.getBody().setDataVencimento("02/03");
         getCartao.getBody().setDataFechamento("10/03");
         getCartao.getBody().setFuncionalidade("credito");
         getCartao.getBody().setNome("Nubank");
 
-        restTemplate.put("/cartoes/1234", getCartao);
+        restTemplate.put("/cartoes/8232", getCartao);
     }
 
     @Test
     public void deveDeletarCartao(){
-        restTemplate.delete("/cartoes/1234");
+        restTemplate.delete("/cartoes/8232");
     }
 
     @Test

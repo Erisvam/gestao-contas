@@ -1,6 +1,8 @@
 package br.com.gestao.contas.pessoas.dto;
 
 import br.com.gestao.contas.dividas.dto.DividaDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
@@ -18,6 +20,9 @@ import java.util.List;
 @Entity
 @Table(name = "pessoas")
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "codigo")
 public class PessoaDTO implements Serializable {
 
     @Serial

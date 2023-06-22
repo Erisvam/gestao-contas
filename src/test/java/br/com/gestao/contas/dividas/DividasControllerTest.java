@@ -3,6 +3,7 @@ package br.com.gestao.contas.dividas;
 import br.com.gestao.contas.cartoes.dto.CartaoDTO;
 import br.com.gestao.contas.dividas.dto.DividaDTO;
 import br.com.gestao.contas.dividas.repository.DividaRepository;
+import br.com.gestao.contas.dividas.viewmodel.AlteraDividasViewModel;
 import br.com.gestao.contas.dividas.viewmodel.DividaViewModel;
 import br.com.gestao.contas.pessoas.dto.PessoaDTO;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,4 +61,28 @@ public class DividasControllerTest {
         assertThat(getDividaResponse.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
     }
 
+    @Test
+    public void deveAlterarDivida(){
+        ResponseEntity<DividaViewModel> getDividasResponse = restTemplate.getForEntity("/dividas/5", DividaViewModel.class);
+        getDividasResponse.getBody().setStatus("pendente");
+        getDividasResponse.getBody().setValor(new BigDecimal(10.00));
+        getDividasResponse.getBody().setDescricao("pao no chama");
+        getDividasResponse.getBody().setDataCompra(LocalDate.parse("2023-06-22"));
+        getDividasResponse.getBody().getCartao().setNome("Santander");
+        getDividasResponse.getBody().getCartao().setFuncionalidade("CREDITO");
+
+        restTemplate.put("/dividas/5", getDividasResponse);
+    }
+
+    @Test
+    public void deveDeletarDivida(){
+        restTemplate.delete("/dividas/5");
+
+    }
+
+    @Test
+    public void deveConsultarDividas(){
+        ResponseEntity<List> getListResponse = restTemplate.getForEntity("/dividas", List.class);
+        assertThat(getListResponse.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+    }
 }
