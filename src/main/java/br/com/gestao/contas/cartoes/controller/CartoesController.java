@@ -24,7 +24,7 @@ public class CartoesController {
     public ResponseEntity<?> cadastrarCartao(@RequestBody CartaoDTO cartao){
         CartaoDTO cartaoSalvo = this.cartaoRepository.save(cartao);
 
-        URI uri = UriComponentsBuilder.fromPath("/cartoes/{codigo}").buildAndExpand(cartao.getCodigo()).toUri();
+        URI uri = UriComponentsBuilder.fromPath("/cartoes/{codigo}").buildAndExpand(cartaoSalvo.getCodigo()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
