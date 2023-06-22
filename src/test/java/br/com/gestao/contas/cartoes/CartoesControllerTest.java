@@ -9,6 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -43,5 +45,26 @@ public class CartoesControllerTest {
     public void deveConsultarCartao(){
         ResponseEntity<CartaoDTO> consultaCartaoResponse = restTemplate.getForEntity("/cartoes/1234", CartaoDTO.class);
         assertThat(consultaCartaoResponse.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void deveEditarCartao(){
+        ResponseEntity<CartaoDTO> getCartao = restTemplate.getForEntity("/cartoes/1234", CartaoDTO.class);
+        getCartao.getBody().setDataVencimento("02/03");
+        getCartao.getBody().setDataFechamento("10/03");
+        getCartao.getBody().setFuncionalidade("credito");
+        getCartao.getBody().setNome("Nubank");
+
+        restTemplate.put("/cartoes/1234", getCartao);
+    }
+
+    @Test
+    public void deveDeletarCartao(){
+        restTemplate.delete("/cartoes/1234");
+    }
+
+    @Test
+    public void deveListarTodosCartoes(){
+        restTemplate.getForEntity("/cartoes", List.class);
     }
 }
