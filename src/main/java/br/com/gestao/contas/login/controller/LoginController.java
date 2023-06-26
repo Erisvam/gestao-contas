@@ -30,7 +30,6 @@ public class LoginController {
         Authentication authenticate = this.manager.authenticate(token);
 
         String tokenJTW = this.tokenService.gerarToken((LoginDto) authenticate.getPrincipal());
-
         return ResponseEntity.ok(new DadosTokenJWT(tokenJTW));
     }
 }
