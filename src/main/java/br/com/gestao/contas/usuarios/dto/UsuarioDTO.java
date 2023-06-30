@@ -1,4 +1,4 @@
-package br.com.gestao.contas.cartao.dto;
+package br.com.gestao.contas.usuarios.dto;
 
 import br.com.gestao.contas.manager.dto.ManagerDTO;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -8,28 +8,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cartao")
+@Table(name = "usuario")
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CartaoDTO implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -1572261752842862347L;
+public class UsuarioDTO {
 
     @Id
-    private String codigo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(length = 40, nullable = false, unique = true)
+    @Column(length = 40, nullable = false)
     private String nome;
 
-    @Column(length = 6, nullable = false)
-    private String dataFechamento;
+    @Column(length = 15)
+    private String telefone;
 
     @ManyToOne
     @JoinColumn(name = "manager_id", nullable = false)
