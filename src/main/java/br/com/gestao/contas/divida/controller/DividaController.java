@@ -28,4 +28,10 @@ public class DividaController {
     public ResponseEntity<List<DividaDTO>> listarDividas(){
         return ResponseEntity.ok(this.dividaRepository.findAll());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<DividaDTO>> listarDividasCartao(@PathVariable(name = "id") String codigoCartao){
+        return ResponseEntity.ok(this.dividaRepository.findByCodigoCartao(codigoCartao));
+
+    }
 }
