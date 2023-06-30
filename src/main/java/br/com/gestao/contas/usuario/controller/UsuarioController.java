@@ -1,7 +1,7 @@
-package br.com.gestao.contas.usuarios.controller;
+package br.com.gestao.contas.usuario.controller;
 
-import br.com.gestao.contas.usuarios.dto.UsuarioDTO;
-import br.com.gestao.contas.usuarios.respository.UsuarioRepository;
+import br.com.gestao.contas.usuario.dto.UsuarioDTO;
+import br.com.gestao.contas.usuario.respository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package br.com.gestao.contas.usuarios.dto;
+package br.com.gestao.contas.usuario.dto;
 
 import br.com.gestao.contas.manager.dto.ManagerDTO;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

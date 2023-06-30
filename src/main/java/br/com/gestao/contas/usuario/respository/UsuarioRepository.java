@@ -1,6 +1,6 @@
-package br.com.gestao.contas.usuarios.respository;
+package br.com.gestao.contas.usuario.respository;
 
-import br.com.gestao.contas.usuarios.dto.UsuarioDTO;
+import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
