@@ -27,4 +27,5 @@ public class CartaoController {
     public ResponseEntity<List<CartaoDTO>> listarCartoes(){
         return ResponseEntity.ok(this.cartaoRepository.findAll());
     }
+
 }

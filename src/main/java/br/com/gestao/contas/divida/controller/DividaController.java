@@ -2,10 +2,13 @@ package br.com.gestao.contas.divida.controller;
 
 import br.com.gestao.contas.divida.dto.DividaDTO;
 import br.com.gestao.contas.divida.respository.DividaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dividas")
@@ -29,9 +32,12 @@ public class DividaController {
         return ResponseEntity.ok(this.dividaRepository.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<DividaDTO>> listarDividasCartao(@PathVariable(name = "id") String codigoCartao){
-        return ResponseEntity.ok(this.dividaRepository.findByCodigoCartao(codigoCartao));
+    @GetMapping("/cartao/{codigo_cartao}")
+    public ResponseEntity<List<DividaDTO>> listarDividasCartao(@PathVariable (name = "codigo_cartao") String codigoCartao){
+        List<DividaDTO> dividasCartao = this.dividaRepository.findByCodigoCartao(codigoCartao);
+        Optional<BigDecimal> valorTotal = dividasCartao.stream().map(DividaDTO::getValor).reduce(BigDecimal::add);
+
+        return ResponseEntity.ok(dividasCartao);
 
     }
 }
