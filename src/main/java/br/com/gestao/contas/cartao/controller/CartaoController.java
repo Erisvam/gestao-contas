@@ -32,9 +32,8 @@ public class CartaoController {
 
     @GetMapping
     public ResponseEntity<List<CartaoResponseDTO>> listarCartoes(){
-        List<Cartao> cartoes = this.cartaoService.listarCartoes();
-        List<CartaoResponseDTO> cartoesDTO = this.cartaoMapper.from(cartoes);
-        return ResponseEntity.ok(cartoesDTO);
+        List<CartaoResponseDTO> cartoes = this.cartaoService.listarCartoes();
+        return ResponseEntity.ok(cartoes);
     }
 
     @DeleteMapping("/{codigo}")

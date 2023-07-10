@@ -25,9 +25,4 @@ public class CartaoMapperImpl implements CartaoMapper {
     public CartaoResponseDTO from(Cartao cartaoSalvo) {
         return this.modelMapper.map(cartaoSalvo, CartaoResponseDTO.class);
     }
-
-    @Override
-    public List<CartaoResponseDTO> from(List<Cartao> cartoes) {
-        return this.modelMapper.map(cartoes, new TypeToken<List<CartaoResponseDTO>>() {}.getType());
-    }
 }

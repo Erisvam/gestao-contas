@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -30,8 +33,17 @@ public class CartaoServiceImpl implements CartaoService {
     }
 
     @Override
-    public List<Cartao> listarCartoes() {
-        return this.cartaoRepository.findAll();
+    public List<CartaoResponseDTO> listarCartoes() {
+        List<CartaoResponseDTO> cartoesResponse = new ArrayList<>();
+        this.cartaoRepository.findAll()
+                .forEach(cartao -> {
+                    CartaoResponseDTO from = this.cartaoMapper.from(cartao);
+                    Optional<CartaoResponseDTO> cartaoResponseDTO = this.dividaService.buscarValorTotalPorCartao(from.getCodigo());
+                    from.setValorTotal(cartaoResponseDTO.isPresent()? cartaoResponseDTO.get().getValorTotal() : BigDecimal.ZERO);
+
+                    cartoesResponse.add(from);
+                });
+        return cartoesResponse;
     }
 
     @Override
@@ -51,10 +63,10 @@ public class CartaoServiceImpl implements CartaoService {
             CartaoResponseDTO cartaoResponesDTO = this.cartaoMapper.from(cartaoOptional.get());
 
             List<UsuarioDTO> dividaUsuarioPorCartaoDTOS = this.dividaService.buscarDividasUsuarioPorCartao(codigoCartao);
-            CartaoResponseDTO valorTotalCartao = this.dividaService.buscarValorTotalPorCartao(codigoCartao);
+            Optional<CartaoResponseDTO> valorTotalCartao = this.dividaService.buscarValorTotalPorCartao(codigoCartao);
 
             cartaoResponesDTO.setUsuarios(dividaUsuarioPorCartaoDTOS);
-            cartaoResponesDTO.setValorTotal(valorTotalCartao.getValorTotal());
+            cartaoResponesDTO.setValorTotal(valorTotalCartao.isPresent() ? valorTotalCartao.get().getValorTotal() : BigDecimal.ZERO);
 
             return cartaoResponesDTO;
         }

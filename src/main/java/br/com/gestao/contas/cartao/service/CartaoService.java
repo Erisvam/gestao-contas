@@ -9,7 +9,7 @@ import java.util.List;
 public interface CartaoService {
     Cartao cadastrarCartao(Cartao cartao);
 
-    List<Cartao> listarCartoes();
+    List<CartaoResponseDTO> listarCartoes();
 
     HttpStatus deletarCartao(String codigo);
 

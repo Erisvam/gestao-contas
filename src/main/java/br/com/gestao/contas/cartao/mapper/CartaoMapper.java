@@ -10,6 +10,4 @@ public interface CartaoMapper {
     Cartao to(CartaoDTO cartao);
 
     CartaoResponseDTO from(Cartao cartaoSalvo);
-
-    List<CartaoResponseDTO> from(List<Cartao> cartoes);
 }

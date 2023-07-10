@@ -44,4 +44,10 @@ public class CartaoResponseDTO implements Serializable {
         this.nome = nomeCartao;
         this.valorTotal = valorTotal;
     }
+
+    public CartaoResponseDTO(String codigoCartao, String nomeCartao, BigDecimal valorTotal){
+        this.codigo = codigoCartao;
+        this.nome = nomeCartao;
+        this.valorTotal = valorTotal;
+    }
 }
