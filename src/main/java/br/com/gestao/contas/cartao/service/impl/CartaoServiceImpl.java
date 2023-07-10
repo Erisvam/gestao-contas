@@ -35,12 +35,10 @@ public class CartaoServiceImpl implements CartaoService {
     @Override
     public List<CartaoResponseDTO> listarCartoes() {
         List<CartaoResponseDTO> cartoesResponse = new ArrayList<>();
-        this.cartaoRepository.findAll()
-                .forEach(cartao -> {
-                    CartaoResponseDTO from = this.cartaoMapper.from(cartao);
+        this.cartaoRepository.findAll().stream().map(this.cartaoMapper::from)
+                .forEach(from -> {
                     Optional<CartaoResponseDTO> cartaoResponseDTO = this.dividaService.buscarValorTotalPorCartao(from.getCodigo());
                     from.setValorTotal(cartaoResponseDTO.isPresent()? cartaoResponseDTO.get().getValorTotal() : BigDecimal.ZERO);
-
                     cartoesResponse.add(from);
                 });
         return cartoesResponse;
