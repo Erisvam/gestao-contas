@@ -44,14 +44,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioDTO> listarUsuarios() {
         List<UsuarioDTO> usuarios = new ArrayList<>();
-        this.usuarioRepository.findAll()
-                .forEach(usuario -> {
-                    UsuarioDTO from = this.usuarioMapper.from(usuario);
-                    Optional<UsuarioDTO> usuarioDTO = this.dividaRepository.buscarValorTotalByUsuarios(from.getId());
-                    from.setValorTotal(usuarioDTO.isPresent()? usuarioDTO.get().getValorTotal() : BigDecimal.ZERO);
-
-                    usuarios.add(from);
-                });
+        this.usuarioRepository.findAll().stream().map(this.usuarioMapper::from).forEach(from -> {
+            Optional<UsuarioDTO> usuarioDTO = this.dividaRepository.buscarValorTotalByUsuarios(from.getId());
+            from.setValorTotal(usuarioDTO.isPresent() ? usuarioDTO.get().getValorTotal() : BigDecimal.ZERO);
+            usuarios.add(from);
+        });
         return usuarios;
     }
 }
