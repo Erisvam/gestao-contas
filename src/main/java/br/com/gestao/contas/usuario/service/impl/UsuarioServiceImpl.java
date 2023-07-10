@@ -5,11 +5,14 @@ import br.com.gestao.contas.divida.dto.DividasDetalheUsuarioDTO;
 import br.com.gestao.contas.divida.repository.DividaRepository;
 import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import br.com.gestao.contas.usuario.entity.Usuario;
+import br.com.gestao.contas.usuario.mapper.UsuarioMapper;
 import br.com.gestao.contas.usuario.respository.UsuarioRepository;
 import br.com.gestao.contas.usuario.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
     private final DividaRepository dividaRepository;
+
+    private final UsuarioMapper usuarioMapper;
 
     @Override
     public List<DadosDetalhadosUsuarioDTO> consultarDetalheDividaUsuario(Long id) {
@@ -38,7 +43,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<UsuarioDTO> listarUsuarios() {
-        return this.dividaRepository.buscarValorTotalByUsuarios();
-    }
+        List<UsuarioDTO> usuarios = new ArrayList<>();
+        this.usuarioRepository.findAll()
+                .forEach(usuario -> {
+                    UsuarioDTO from = this.usuarioMapper.from(usuario);
+                    Optional<UsuarioDTO> usuarioDTO = this.dividaRepository.buscarValorTotalByUsuarios(from.getId());
+                    from.setValorTotal(usuarioDTO.isPresent()? usuarioDTO.get().getValorTotal() : BigDecimal.ZERO);
 
+                    usuarios.add(from);
+                });
+        return usuarios;
+    }
 }

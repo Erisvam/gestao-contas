@@ -5,10 +5,7 @@ import br.com.gestao.contas.cartao.dto.CartaoResponseDTO;
 import br.com.gestao.contas.cartao.entity.Cartao;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
