@@ -1,14 +1,15 @@
 package br.com.gestao.contas.cartao.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.com.gestao.contas.divida.dto.DividasDetalheUsuarioDTO;
 import br.com.gestao.contas.manager.dto.ManagerDTO;
+import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CartaoDTO implements Serializable {
+public class CartaoResponseDTO implements Serializable {
 
-	private static final long serialVersionUID = 7322932020857142360L;
+	private static final long serialVersionUID = -1547753614114479502L;
 	
-	@JsonProperty("codigo")
+    @JsonProperty("codigo")
     private String codigo;
 
     @JsonProperty("nome")
@@ -34,7 +35,21 @@ public class CartaoDTO implements Serializable {
     @JsonProperty("manager")
     private ManagerDTO manager;
 
-    @JsonProperty("dividas")
-    private List<DividasDetalheUsuarioDTO> dividas;
+    @JsonProperty("valor_total")
+    private BigDecimal valorTotal;
+
+    @JsonProperty("usuarios")
+    private List<UsuarioDTO> usuarios;
+    
+    public CartaoResponseDTO(String nomeCartao, BigDecimal valorTotal){
+        this.nome = nomeCartao;
+        this.valorTotal = valorTotal;
+    }
+
+    public CartaoResponseDTO(String codigoCartao, String nomeCartao, BigDecimal valorTotal){
+        this.codigo = codigoCartao;
+        this.nome = nomeCartao;
+        this.valorTotal = valorTotal;
+    }
 
 }

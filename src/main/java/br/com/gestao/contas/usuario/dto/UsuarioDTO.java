@@ -1,32 +1,36 @@
 package br.com.gestao.contas.usuario.dto;
 
-import br.com.gestao.contas.manager.dto.ManagerDTO;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import java.io.Serial;
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "usuario")
-@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UsuarioDTO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UsuarioDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Serial
+    private static final long serialVersionUID = -7316883042840604957L;
+
+    @JsonProperty("id")
     private Long id;
 
-    @Column(length = 40, nullable = false)
+    @JsonProperty("nome")
     private String nome;
 
-    @Column(length = 15)
-    private String telefone;
+    @JsonProperty("valor_total")
+    private BigDecimal valorTotal;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", nullable = false)
-    private ManagerDTO manager;
+    public UsuarioDTO(String nome, BigDecimal valorTotal){
+        this.nome = nome;
+        this.valorTotal = valorTotal;
+    }
 }
