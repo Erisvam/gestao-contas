@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.gestao.contas.divida.dto.DividasDetalheUsuarioDTO;
 import br.com.gestao.contas.divida.repository.DividaRepository;
 import br.com.gestao.contas.usuario.dto.DadosDetalhadosUsuarioDTO;
+import br.com.gestao.contas.usuario.dto.DadosDetalhadosUsuarioResponseDTO;
 import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import br.com.gestao.contas.usuario.entity.Usuario;
 import br.com.gestao.contas.usuario.mapper.UsuarioMapper;
@@ -30,7 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	private UsuarioMapper usuarioMapper;
 
 	@Override
-	public List<DadosDetalhadosUsuarioDTO> consultarDetalheDividaUsuario(Long id) {
+	public DadosDetalhadosUsuarioResponseDTO consultarDetalheDividaUsuario(Long id) {
 		Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(id);
 		if (usuarioOptional.isPresent()) {
 			List<DadosDetalhadosUsuarioDTO> nomeUsuarioNomeAndValorTotalCartao = this.dividaRepository
@@ -41,9 +42,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 								dadosDetalhadosUsuarioDTO.getNomeUsuario(), dadosDetalhadosUsuarioDTO.getNomeCartao());
 				dadosDetalhadosUsuarioDTO.setDividas(dividasByUsuario);
 			});
-			return nomeUsuarioNomeAndValorTotalCartao;
+			
+			BigDecimal saldoDevedor = getSaldoDevedor(nomeUsuarioNomeAndValorTotalCartao);
+			
+			return new DadosDetalhadosUsuarioResponseDTO(usuarioOptional.get().getNome(), saldoDevedor, nomeUsuarioNomeAndValorTotalCartao);
 		}
 		throw new RuntimeException();
+	}
+
+	private BigDecimal getSaldoDevedor(List<DadosDetalhadosUsuarioDTO> nomeUsuarioNomeAndValorTotalCartao) {
+		return nomeUsuarioNomeAndValorTotalCartao
+			.stream()
+			.map(dadosDetalhe -> dadosDetalhe.getValorTotalCartao())
+			.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 	@Override

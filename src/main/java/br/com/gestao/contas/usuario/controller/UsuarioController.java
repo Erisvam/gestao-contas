@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gestao.contas.usuario.dto.DadosDetalhadosUsuarioDTO;
+import br.com.gestao.contas.usuario.dto.DadosDetalhadosUsuarioResponseDTO;
 import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import br.com.gestao.contas.usuario.entity.Usuario;
 import br.com.gestao.contas.usuario.repository.UsuarioRepository;
@@ -57,8 +57,8 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<DadosDetalhadosUsuarioDTO>> consultarDetalheDividaUsuario(@PathVariable Long id){
-        List<DadosDetalhadosUsuarioDTO> dadosDetalhadosUsuarioDTOS = this.usuarioService.consultarDetalheDividaUsuario(id);
+    public ResponseEntity<DadosDetalhadosUsuarioResponseDTO> consultarDetalheDividaUsuario(@PathVariable Long id){
+    	DadosDetalhadosUsuarioResponseDTO dadosDetalhadosUsuarioDTOS = this.usuarioService.consultarDetalheDividaUsuario(id);
         return ResponseEntity.ok(dadosDetalhadosUsuarioDTOS);
     }
 }
