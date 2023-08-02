@@ -1,7 +1,5 @@
 package br.com.gestao.contas.cartao.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gestao.contas.cartao.dto.CartaoDTO;
 import br.com.gestao.contas.cartao.dto.CartaoResponseDTO;
+import br.com.gestao.contas.cartao.dto.ListaCartoesDTO;
 import br.com.gestao.contas.cartao.entity.Cartao;
 import br.com.gestao.contas.cartao.mapper.CartaoMapperService;
 import br.com.gestao.contas.cartao.service.CartaoService;
@@ -32,17 +31,17 @@ public class CartaoController {
     private CartaoMapperService cartaoMapper;
 
 	@PostMapping
-    public ResponseEntity<CartaoResponseDTO> cadastrarCartao(@RequestBody CartaoDTO cartao){
-        Cartao toCartao = this.cartaoMapper.to(cartao);
-        Cartao cartaoSalvo = this.cartaoService.cadastrarCartao(toCartao);
-        CartaoResponseDTO cartaoSalvoDto =  this.cartaoMapper.from(cartaoSalvo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cartaoSalvoDto);
+    public ResponseEntity<CartaoResponseDTO> cadastrarCartao(@RequestBody CartaoDTO cartaoRequestDTO){
+        Cartao cartaoRequestEntity = this.cartaoMapper.to(cartaoRequestDTO);
+        Cartao cartaoSalvoResponseEntity = this.cartaoService.cadastrarCartao(cartaoRequestEntity);
+        CartaoResponseDTO cartaoResponseDTO =  this.cartaoMapper.from(cartaoSalvoResponseEntity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartaoResponseDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<CartaoResponseDTO>> listarCartoes(){
-        List<CartaoResponseDTO> cartoes = this.cartaoService.listarCartoes();
-        return ResponseEntity.ok(cartoes);
+    public ResponseEntity<ListaCartoesDTO> listarCartoes(){
+    	ListaCartoesDTO listaCartoes = this.cartaoService.listarCartoes();
+        return ResponseEntity.ok(listaCartoes);
     }
 
     @DeleteMapping("/{codigo}")

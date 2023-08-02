@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.com.gestao.contas.manager.dto.ManagerDTO;
 import br.com.gestao.contas.usuario.dto.UsuarioDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +30,6 @@ public class CartaoResponseDTO implements Serializable {
 
     @JsonProperty("data_fechamento")
     private String dataFechamento;
-
-    @JsonProperty("manager")
-    private ManagerDTO manager;
 
     @JsonProperty("valor_total")
     private BigDecimal valorTotal;
