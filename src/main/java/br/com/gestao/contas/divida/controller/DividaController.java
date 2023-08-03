@@ -1,43 +1,50 @@
 package br.com.gestao.contas.divida.controller;
 
-import br.com.gestao.contas.divida.dto.DividaDTO;
-import br.com.gestao.contas.divida.respository.DividaRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.gestao.contas.divida.dto.DividaDTO;
+import br.com.gestao.contas.divida.entity.Divida;
+import br.com.gestao.contas.divida.service.DividaMapperService;
+import br.com.gestao.contas.divida.service.DividaService;
 
 @RestController
 @RequestMapping("/dividas")
-
 @CrossOrigin(originPatterns = "*")
 public class DividaController {
+	
+	@Autowired
+	private DividaService dividaService;
+	
+	@Autowired
+	private DividaMapperService dividaMapper;
 
-    private final DividaRepository dividaRepository;
+	@PostMapping
+	public ResponseEntity<?> cadastrarDivida(@RequestBody DividaDTO dividaDTO){
+		Divida dividaRequestEntity = dividaMapper.to(dividaDTO);
+		dividaService.cadastrarDivida(dividaRequestEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
 
-    public DividaController(DividaRepository dividaRepository) {
-        this.dividaRepository = dividaRepository;
-    }
+	@GetMapping
+	public ResponseEntity<List<Divida>> listarDividas() {
+		return ResponseEntity.ok(dividaService.listarDividas());
+	}
 
-    @PostMapping
-    public ResponseEntity<DividaDTO> cadastrarDivida(@RequestBody DividaDTO dividaDTO){
-        return ResponseEntity.ok(this.dividaRepository.save(dividaDTO));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DividaDTO>> listarDividas(){
-        return ResponseEntity.ok(this.dividaRepository.findAll());
-    }
-
-    @GetMapping("/cartao/{codigo_cartao}")
-    public ResponseEntity<List<DividaDTO>> listarDividasCartao(@PathVariable (name = "codigo_cartao") String codigoCartao){
-        List<DividaDTO> dividasCartao = this.dividaRepository.findByCodigoCartao(codigoCartao);
-        Optional<BigDecimal> valorTotal = dividasCartao.stream().map(DividaDTO::getValor).reduce(BigDecimal::add);
-
-        return ResponseEntity.ok(dividasCartao);
-
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deletarDivida(@PathVariable Long id) {
+		dividaService.deletarDivida(id);
+		return ResponseEntity.noContent().build();
+	}
 }

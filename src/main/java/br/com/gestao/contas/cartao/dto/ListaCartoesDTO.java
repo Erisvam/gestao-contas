@@ -1,6 +1,8 @@
-package br.com.gestao.contas.manager.dto;
+package br.com.gestao.contas.cartao.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,13 +17,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ManagerDTO implements Serializable {
-
-	private static final long serialVersionUID = -5021733919119703153L;
-
-	@JsonProperty("id")
-    private Long id;
-
-    @JsonProperty("nome")
-    private String nome;
+public class ListaCartoesDTO implements Serializable {
+	private static final long serialVersionUID = 202292172096027285L;
+	
+	@JsonProperty("cartoes")
+	private List<CartaoResponseDTO> cartoes = new ArrayList<CartaoResponseDTO>();
+	
 }
