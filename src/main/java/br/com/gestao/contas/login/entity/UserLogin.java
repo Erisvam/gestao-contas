@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.gestao.contas.login.enums.UserLoginRoleEnum;
+import br.com.gestao.contas.login.enums.LoginRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,9 +42,9 @@ public class UserLogin implements UserDetails, Serializable {
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private UserLoginRoleEnum role;
+	private LoginRoleEnum role;
 	
-	public UserLogin(String login, UserLoginRoleEnum role, String senha) {
+	public UserLogin(String login, LoginRoleEnum role, String senha) {
 		this.login = login;
 		this.role = role;
 		this.senha = senha;
@@ -52,8 +52,8 @@ public class UserLogin implements UserDetails, Serializable {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		if(UserLoginRoleEnum.ADMIN.equals(this.role)) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-		return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		if(LoginRoleEnum.ADMIN.equals(this.role) || LoginRoleEnum.ROOT.equals(this.role)) return List.of(getRoleAdmin(), getRoleUser());
+		return List.of(getRoleUser());
 	}
 
 	@Override
@@ -85,5 +85,12 @@ public class UserLogin implements UserDetails, Serializable {
 	public boolean isEnabled() {
 		return true;
 	}
-
+	
+	private SimpleGrantedAuthority getRoleAdmin() {
+		return new SimpleGrantedAuthority("ROLE_ADMIN");
+	}
+	
+	private SimpleGrantedAuthority getRoleUser() {
+		return new SimpleGrantedAuthority("ROLE_ADMIN");
+	}
 }

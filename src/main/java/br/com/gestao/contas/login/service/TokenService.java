@@ -39,13 +39,19 @@ public class TokenService {
 	public String validarTokenJWT(String tokenJWT) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
-			return JWT.require(algorithm).withIssuer("gestao-contas").build().verify(tokenJWT).getSubject();
+			String subject = JWT.require(algorithm)
+				.withIssuer("gestao-contas")
+				.build()
+				.verify(tokenJWT)
+				.getSubject();
+			return subject;
 		} catch (JWTVerificationException exception) {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Token JWT inválido ou expirado!");
 		}
 	}
 
 	private Instant dataExpiracao() {
-		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+		return LocalDateTime.now().plusMinutes(1).toInstant(ZoneOffset.of("-03:00"));
+//		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
 	}
 }

@@ -29,6 +29,7 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 						.requestMatchers(HttpMethod.POST, "/auth/cadastro-manage").permitAll()
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/cartoes").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/usuarios").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/managers").hasRole("ADMIN")

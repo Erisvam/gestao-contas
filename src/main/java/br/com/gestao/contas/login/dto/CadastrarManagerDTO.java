@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import br.com.gestao.contas.login.enums.UserLoginRoleEnum;
+import br.com.gestao.contas.login.enums.LoginRoleEnum;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -26,6 +26,6 @@ public class CadastrarManagerDTO implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	@JsonProperty("role")
-	private UserLoginRoleEnum role;
+	private LoginRoleEnum role;
 
 }
